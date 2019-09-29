@@ -12,6 +12,9 @@
     <Name>Classification_Business</Name>
     <RootNamespace>Classification_Business</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments>X:\Projects\Learn_Business\Learn_Business\Model\NaiveBayes_model.sav X:\Projects\Learn_Business\Learn_Business\Model\SVM_linear_model.sav X:\Projects\Learn_Business\Learn_Business\Model\Logistic_model.sav X:\Repos\Kondo-519\Classification_Business\Classification_Business\test</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,8 +25,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Classification_Business.py" />
     <Compile Include="Main.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MeCabShell.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Result.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
