@@ -3,10 +3,12 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import sys
 import os
 import numpy as np
+from sklearn.preprocessing import StandardScaler
+import csv
 
 #引数check
-if len(sys.argv) < 5 :
-    print("【Warn】引数が指定されていません。モデルの第一候補、第二候補、第三候補と処理対象のフォルダパスをを引数として指定してください。")
+if len(sys.argv) < 7 :
+    print("【Warn】引数が指定されていません。モデルの第一候補、第二候補、第三候補とVectorizer、処理対象のフォルダパスと結果の出力先を引数として指定してください。")
     sys.exit
 
 #モデル読み込み
@@ -18,61 +20,34 @@ loaded_model1 = pickle.load(open(sys.argv[1], 'rb'))
 loaded_model2 = pickle.load(open(sys.argv[2], 'rb'))
 loaded_model3 = pickle.load(open(sys.argv[3], 'rb'))
 
-
 #テキスト読み込み
-p = Path(sys.argv[4])
+p = Path(sys.argv[5])
 filePathList = list(p.glob("**/*.txt"))
 
 texts = [open(path, encoding='UTF-8').readlines() for path in filePathList]
 names = [os.path.basename(path)[:4] for path in filePathList]
 
-
 #textsを分かち書き
 from MeCabShell import MeCabShell
 texts = [[MeCabShell.Analysis(0,line.rstrip(os.linesep)) for line in text] for text in texts]
-
-#ベクトル化
-dictionary = corpora.Dictionary(texts)
-dictionary.filter_extremes(no_below = 5, no_above = 0.5)
+texts = [[flatten for inner in text for flatten in inner] for text in texts]
 
 #2次元配列を作る。
 np.set_printoptions(precision=2)
 
-#TfidfVectorizer
-vectorizer = TfidfVectorizer(analyzer=dictionary.doc2bow, use_idf=True, token_pattern=u'(?u)\\b\\w+\\b',min_df=0.05, max_df=0.8)
+#TfidfVectorizerをロード（fit済）
+vectorizer = pickle.load(open(sys.argv[4], "rb"))
 
 #テスト用データ作成
-train_data = vectorizer.fit_transform(np.array(texts)).toarray()
-
-#標準化
-sc = StandardScaler()
-sc.fit(train_data)
-self.train_data_std = sc.transform(train_data)
+tfidf = vectorizer.transform(np.array(texts)).toarray()
 
 #評価
+result1 = loaded_model1.predict(tfidf)
+result2 = loaded_model2.predict(tfidf)
+result3 = loaded_model3.predict(tfidf)
 
-
-print(texts)
-print(names)
 #csvにoutput
-
-
-
-
-def readTxtfiles(filePath):
-    """
-    指定されたフォルダ配下の.txt拡張子のファイルの中身をList形式で返却する。
-    Returns
-    -------
-    texts: str[][]
-        指定されたフォルダ配下のファイルを行毎にList化したものをList化
-    """
-    # Pathオブジェクトを生成
-    p = Path(filePath)
-    filePathList = list(p.glob("**/*.txt"))
-
-    result = [open(path, encoding='UTF-8') for path in filePathList]
-
-    xmlDataList = []
-
-    return result
+with open(sys.argv[6], 'w', newline='', encoding='utf-8') as f:
+    writer = csv.writer(f, lineterminator='\n')
+    for i in range(len(names)):
+        writer.writerow([names[i], result1[i],result2[i],result3[i]])

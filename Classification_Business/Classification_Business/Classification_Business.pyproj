@@ -13,7 +13,7 @@
     <RootNamespace>Classification_Business</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>X:\Projects\Learn_Business\Learn_Business\Model\NaiveBayes_model.sav X:\Projects\Learn_Business\Learn_Business\Model\SVM_linear_model.sav X:\Projects\Learn_Business\Learn_Business\Model\Logistic_model.sav X:\Repos\Kondo-519\Classification_Business\Classification_Business\test</CommandLineArguments>
+    <CommandLineArguments>X:\Repos\Kondo-519\Classification_Business\Classification_Business\Model\NaiveBayes_model.sav X:\Repos\Kondo-519\Classification_Business\Classification_Business\Model\SVM_linear_model.sav X:\Repos\Kondo-519\Classification_Business\Classification_Business\Model\Logistic_model.sav X:\Repos\Kondo-519\Classification_Business\Classification_Business\Model\tfidf.pkl X:\Repos\Kondo-519\Classification_Business\Classification_Business\test X:\Repos\Kondo-519\Classification_Business\Classification_Business\Model\result.csv</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
