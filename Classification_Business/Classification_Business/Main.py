@@ -5,6 +5,8 @@ import os
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 import csv
+import pickle
+from pathlib import Path
 
 #引数check
 if len(sys.argv) < 7 :
@@ -12,10 +14,6 @@ if len(sys.argv) < 7 :
     sys.exit
 
 #モデル読み込み
-
-import pickle
-from pathlib import Path
-
 loaded_model1 = pickle.load(open(sys.argv[1], 'rb'))
 loaded_model2 = pickle.load(open(sys.argv[2], 'rb'))
 loaded_model3 = pickle.load(open(sys.argv[3], 'rb'))
